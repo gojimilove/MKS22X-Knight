@@ -57,14 +57,22 @@ public class KnightBoard {
     if (board[r][c] != 0) return false;
     else {
       board[r][c] = -1;
-      board[r-2][c-1]++;
-      board[r-2][c+1]++;
-      board[r-1][c+2]++;
-      board[r-1][c-2]++;
-      board[r+1][c+2]++;
-      board[r+1][c-2]++;
-      board[r+2][c+1]++;
-      board[r+2][c-1]++;
+      if (r-1 >= 0) {
+        if (r-2 >= 0) {
+          if (c-1 >= 0) board[r-2][c-1]++;
+          if (c+1 < board[0].length) board[r-2][c+1]++;
+        }
+        if (c-2 >= 0) board[r-1][c-2]++;
+        if (c+2 < board[0].length) board[r-1][c+2]++;
+      }
+      if (r+1 < board.length) {
+        if (r+2 < board.length) {
+          if (c-1 >= 0) board[r+2][c-1]++;
+          if (c+1 < board[0].length) board[r+2][c+1]++;
+        }
+        if (c-2 >= 0) board[r+1][c-2]++;
+        if (c+2 < board[0].length) board[r+1][c+2]++;
+      }
       return true;
     }
   }
@@ -73,14 +81,22 @@ public class KnightBoard {
     if (board[r][c] != -1) return false;
     else {
       board[r][c] = 0;
-      board[r-2][c-1]--;
-      board[r-2][c+1]--;
-      board[r-1][c+2]--;
-      board[r-1][c-2]--;
-      board[r+1][c+2]--;
-      board[r+1][c-2]--;
-      board[r+2][c+1]--;
-      board[r+2][c-1]--;
+      if (r-1 >= 0) {
+        if (r-2 >= 0) {
+          if (c-1 >= 0) board[r-2][c-1]--;
+          if (c+1 < board[0].length) board[r-2][c+1]--;
+        }
+        if (c-2 >= 0) board[r-1][c-2]--;
+        if (c+2 < board[0].length) board[r-1][c+2]--;
+      }
+      if (r+1 < board.length) {
+        if (r+2 < board.length) {
+          if (c-1 >= 0) board[r+2][c-1]--;
+          if (c+1 < board[0].length) board[r+2][c+1]--;
+        }
+        if (c-2 >= 0) board[r+1][c-2]--;
+        if (c+2 < board[0].length) board[r+1][c+2]--;
+      }
       return true;
     }
   }
