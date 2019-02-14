@@ -6,15 +6,20 @@ public class KnightBoard {
   */
   public KnightBoard(int startingRows, int startingCols) {
   	board = new int[startingRows][startingCols];
-  	int num = 1;
+  	//int num = 1;
   	for (int i = 0; i < board.length; i++) {
   		for (int j = 0; j < board[0].length; j++) {
-  			board[i][j] = num;
-  			num++;
+  			board[i][j] = 0;
+        //board[i][j] = num;
+  			//num++;
   		}
   	}
   	moves = new int[startingRows][startingCols];
-  	if (startingRows > 3 && startingCols > 3) {
+    fillMoves();
+  }
+
+  public void fillMoves() {
+    if (moves.length > 3 && moves[0].length > 3) {
 	  	for (int i = 0; i < moves.length; i++) {
 	  		for (int j = 0; j < moves[0].length; j++) {
 	  			if (i < 2 || i > moves.length-3 || j < 2 || j > moves[0].length-3) {
@@ -29,9 +34,9 @@ public class KnightBoard {
 	  									 (i == moves.length-1 && j == 1) ||
 	  									 (i == moves.length-1 && j == moves[0].length-2)) {
 	  					moves[i][j] = 3;
-	  				} else if (i == 0 || 
-	  									i == moves.length-1 || 
-	  									j == 0 || 
+	  				} else if (i == 0 ||
+	  									i == moves.length-1 ||
+	  									j == 0 ||
 	  									j == moves[0].length-1 ||
 	  									(i == 1 && j == 1) ||
 	  									(i == 1 && j == moves[0].length-2) ||
@@ -48,11 +53,49 @@ public class KnightBoard {
 	  }
   }
 
+  public boolean addKnight(int r, int c) {
+    if (board[r][c] != 0) return false;
+    else {
+      board[r][c] = -1;
+      board[r-2][c-1]++;
+      board[r-2][c+1]++;
+      board[r-1][c+2]++;
+      board[r-1][c-2]++;
+      board[r+1][c+2]++;
+      board[r+1][c-2]++;
+      board[r+2][c+1]++;
+      board[r+2][c-1]++;
+      return true;
+    }
+  }
+
+  public boolean removeKnight(int r, int c) {
+    if (board[r][c] != -1) return false;
+    else {
+      board[r][c] = 0;
+      board[r-2][c-1]--;
+      board[r-2][c+1]--;
+      board[r-1][c+2]--;
+      board[r-1][c-2]--;
+      board[r+1][c+2]--;
+      board[r+1][c-2]--;
+      board[r+2][c+1]--;
+      board[r+2][c-1]--;
+      return true;
+    }
+  }
+
+  /**
+  *@return the properly formatted string
+  */
   public String toString() {
   	String s = "";
   	for (int i = 0; i < board.length; i++) {
   		for (int j = 0; j < board[0].length; j++) {
-  			if (board[i][j] < 10) s = s + " " + board[i][j] + " ";
+  			if (board[i][j] < 10) {
+          if (board[i][j] >= 0) s = s + " " + board[i][j] + " ";
+          else s += board[i][j] + " ";
+        }
   			else s += board[i][j] + " ";
   		}
   		s+="\n";
@@ -75,6 +118,7 @@ public class KnightBoard {
   /**
   *@throws IllegalStateException when the board contains non-zero values.
 	*@throws IllegalArgumentException when either parameter is negative or out of bounds.
+  *@return true when the board is solvable from the specified starting position
 	*/
 	public boolean solve(int startingRow, int startingCol) {
 		return false;
@@ -83,6 +127,7 @@ public class KnightBoard {
 	/**
   *@throws IllegalStateException when the board contains non-zero values.
 	*@throws IllegalArgumentException when either parameter is negative or out of bounds.
+  *@return the number of solutions from the starting position specified
 	*/
 	public int countSolutions(int startingRow, int startingCol) {
 		return 0;
