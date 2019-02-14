@@ -137,8 +137,22 @@ public class KnightBoard {
   *@return true when the board is solvable from the specified starting position
 	*/
 	public boolean solve(int startingRow, int startingCol) {
-		return false;
+		return solveH(startingRow, startingCol, 0);
 	}
+
+  private boolean solveH(int row, int col, int count) {
+    if (count == board.length * board[0].length) {
+      return true;
+    }
+    else {
+      for (int i = 0; i < availableMoves; i++) {
+        if (addKnight(row, col)) {
+          return true;
+        }
+        removeKnight(row, col);
+      }
+    }
+  }
 
 	/**
   *@throws IllegalStateException when the board contains non-zero values.
