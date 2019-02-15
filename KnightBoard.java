@@ -53,50 +53,18 @@ public class KnightBoard {
 	  }
   }
 
-  public boolean addKnight(int r, int c) {
-    if (board[r][c] != 0) return false;
+  public boolean addKnight(int r, int c, int num) {
+    if (board[r][c] != 0 || r < 0 || r >= board.length || c < 0 || c >= board.length) return false;
     else {
-      board[r][c] = -1;
-      if (r-1 >= 0) {
-        if (r-2 >= 0) {
-          if (c-1 >= 0) board[r-2][c-1]++;
-          if (c+1 < board[0].length) board[r-2][c+1]++;
-        }
-        if (c-2 >= 0) board[r-1][c-2]++;
-        if (c+2 < board[0].length) board[r-1][c+2]++;
-      }
-      if (r+1 < board.length) {
-        if (r+2 < board.length) {
-          if (c-1 >= 0) board[r+2][c-1]++;
-          if (c+1 < board[0].length) board[r+2][c+1]++;
-        }
-        if (c-2 >= 0) board[r+1][c-2]++;
-        if (c+2 < board[0].length) board[r+1][c+2]++;
-      }
+      board[r][c] = num;
       return true;
     }
   }
 
   public boolean removeKnight(int r, int c) {
-    if (board[r][c] != -1) return false;
+    if (board[r][c] == 0 || r < 0 || r >= board.length || c < 0 || c >= board.length) return false;
     else {
       board[r][c] = 0;
-      if (r-1 >= 0) {
-        if (r-2 >= 0) {
-          if (c-1 >= 0) board[r-2][c-1]--;
-          if (c+1 < board[0].length) board[r-2][c+1]--;
-        }
-        if (c-2 >= 0) board[r-1][c-2]--;
-        if (c+2 < board[0].length) board[r-1][c+2]--;
-      }
-      if (r+1 < board.length) {
-        if (r+2 < board.length) {
-          if (c-1 >= 0) board[r+2][c-1]--;
-          if (c+1 < board[0].length) board[r+2][c+1]--;
-        }
-        if (c-2 >= 0) board[r+1][c-2]--;
-        if (c+2 < board[0].length) board[r+1][c+2]--;
-      }
       return true;
     }
   }
@@ -145,9 +113,9 @@ public class KnightBoard {
       return true;
     }
     else {
-      for (int i = 0; i < availableMoves; i++) {
-        if (addKnight(row, col)) {
-          return true;
+      for (int i = 0; i < 8; i++) {
+        if (addKnight(row, col, count)) {
+          return (solveH(row+1, col+1, count++);
         }
         removeKnight(row, col);
       }
