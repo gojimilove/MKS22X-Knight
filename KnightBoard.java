@@ -53,10 +53,10 @@ public class KnightBoard {
 	  }
   }
 
-  public boolean addKnight(int r, int c, int num) {
+  public boolean addKnight(int r, int c) {
     if (board[r][c] != 0 || r < 0 || r >= board.length || c < 0 || c >= board.length) return false;
     else {
-      board[r][c] = num;
+      board[r][c] = -1;
       return true;
     }
   }
@@ -113,13 +113,20 @@ public class KnightBoard {
       return true;
     }
     else {
-      for (int i = 0; i < 8; i++) {
-        if (addKnight(row, col, count)) {
-          return (solveH(row+1, col+1, count++);
-        }
-        removeKnight(row, col);
-      }
+      if (addKnight(row-2,col-1) ||
+          addKnight(row-2,col+1) ||
+          addKnight(row-1,col+2) ||
+          addKnight(row+1,col+2) ||
+          addKnight(row+2,col-1) ||
+          addKnight(row+2,col+1) ||
+          addKnight(row-1,col-2) ||
+          addKnight(row+1,col-2)) {
+            if (solveH(row,col,count++)) return true;//WHAT ARE ROW ANDCOL????
+            removeKnight(row,col);
+          }
+
     }
+    return false;
   }
 
 	/**
