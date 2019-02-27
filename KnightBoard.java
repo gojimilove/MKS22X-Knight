@@ -1,5 +1,6 @@
 public class KnightBoard {
   private int[][] board,moves;
+  private int[] rowMove,colMove;
 
   /**
   *@throws IllegalArgumentException when either parameter is negative
@@ -16,6 +17,8 @@ public class KnightBoard {
   	}
   	moves = new int[startingRows][startingCols];
     fillMoves();
+    rowMove = new int[]{-2,-2,-1,1,2,2,-1,1};
+    colMove = new int[]{-1,1,2,2,-1,1,-2,-2};
   }
 
   public void fillMoves() {
@@ -54,15 +57,15 @@ public class KnightBoard {
   }
 
   public boolean addKnight(int r, int c) {
-    if (board[r][c] != 0 || r < 0 || r >= board.length || c < 0 || c >= board.length) return false;
+    if (r < 0 || r >= board.length || c < 0 || c >= board.length || board[r][c] != 0) return false;
     else {
-      board[r][c] = -1;
+      board[r][c] = 1;
       return true;
     }
   }
 
   public boolean removeKnight(int r, int c) {
-    if (board[r][c] == 0 || r < 0 || r >= board.length || c < 0 || c >= board.length) return false;
+    if (r < 0 || r >= board.length || c < 0 || c >= board.length || board[r][c] == 0) return false;
     else {
       board[r][c] = 0;
       return true;
@@ -105,26 +108,24 @@ public class KnightBoard {
   *@return true when the board is solvable from the specified starting position
 	*/
 	public boolean solve(int startingRow, int startingCol) {
-		return solveH(startingRow, startingCol, 0);
+		addKnight(startingRow, startingCol);
+		return solveH(startingRow, startingCol, 2);
 	}
 
   private boolean solveH(int row, int col, int count) {
-    if (count == board.length * board[0].length) {
+    if (count > board.length * board[0].length) {
       return true;
     }
     else {
-      if (addKnight(row-2,col-1) ||
-          addKnight(row-2,col+1) ||
-          addKnight(row-1,col+2) ||
-          addKnight(row+1,col+2) ||
-          addKnight(row+2,col-1) ||
-          addKnight(row+2,col+1) ||
-          addKnight(row-1,col-2) ||
-          addKnight(row+1,col-2)) {
-            if (solveH(row,col,count++)) return true;//WHAT ARE ROW ANDCOL????
-            removeKnight(row,col);
-          }
-
+    	for (int i = 0; i < 8; i++) {
+    		if (addKnight(row+rowMove[i], col+colMove[i])) {
+    			System.out.println(toString());
+    			System.out.println(count);
+    			
+    			if (solveH(row+rowMove[i],col+colMove[i],count+1)) return true;
+    			removeKnight(row+rowMove[i],col+colMove[i]);
+    		}
+    	}
     }
     return false;
   }
