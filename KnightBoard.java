@@ -1,6 +1,7 @@
 public class KnightBoard {
   private int[][] board,moves;
   private int[] rowMove,colMove;
+  private int counter;
 
   /**
   *@throws IllegalArgumentException when either parameter is negative
@@ -19,6 +20,7 @@ public class KnightBoard {
     fillMoves();
     rowMove = new int[]{-2,-2,-1,1,2,2,-1,1};
     colMove = new int[]{-1,1,2,2,-1,1,-2,-2};
+    counter = 0;
   }
 
   public void fillMoves() {
@@ -57,7 +59,7 @@ public class KnightBoard {
   }
 
   public boolean addKnight(int r, int c) {
-    if (r < 0 || r >= board.length || c < 0 || c >= board.length || board[r][c] != 0) return false;
+    if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != 0) return false;
     else {
       board[r][c] = 1;
       return true;
@@ -65,7 +67,7 @@ public class KnightBoard {
   }
 
   public boolean removeKnight(int r, int c) {
-    if (r < 0 || r >= board.length || c < 0 || c >= board.length || board[r][c] == 0) return false;
+    if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] == 0) return false;
     else {
       board[r][c] = 0;
       return true;
@@ -114,14 +116,14 @@ public class KnightBoard {
 
   private boolean solveH(int row, int col, int count) {
     if (count > board.length * board[0].length) {
+    	//System.out.println(toString());
       return true;
     }
     else {
     	for (int i = 0; i < 8; i++) {
     		if (addKnight(row+rowMove[i], col+colMove[i])) {
-    			System.out.println(toString());
-    			System.out.println(count);
-    			
+    			//System.out.println(toString());
+    			//System.out.println(count);
     			if (solveH(row+rowMove[i],col+colMove[i],count+1)) return true;
     			removeKnight(row+rowMove[i],col+colMove[i]);
     		}
@@ -136,6 +138,25 @@ public class KnightBoard {
   *@return the number of solutions from the starting position specified
 	*/
 	public int countSolutions(int startingRow, int startingCol) {
-		return 0;
+		addKnight(startingRow, startingCol);
+		countH(startingRow, startingCol, 2);
+		return counter;
 	}
+
+  private boolean countH(int row, int col, int count) {
+    if (count > board.length * board[0].length) {
+    	counter++;
+    }
+    else {
+    	for (int i = 0; i < 8; i++) {
+    		if (addKnight(row+rowMove[i], col+colMove[i])) {
+    			//System.out.println(toString());
+    			//System.out.println(count);
+    			if (countH(row+rowMove[i],col+colMove[i],count+1)) return true;
+    			removeKnight(row+rowMove[i],col+colMove[i]);
+    		}
+    	}
+    }
+    return false;
+  }
 }
