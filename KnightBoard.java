@@ -110,7 +110,13 @@ public class KnightBoard {
   *@return true when the board is solvable from the specified starting position
 	*/
 	public boolean solve(int startingRow, int startingCol) {
-		addKnight(startingRow, startingCol);
+		//if the board starts with non-zero values throw exception
+  	for (int i = 0; i < board.length; i++) {
+  		for (int j = 0; j < board[0].length; j++) {
+  			if (board[i][j] != 0) throw new IllegalStateException("the board is not empty");
+  		}
+  	}
+  	addKnight(startingRow, startingCol);
 		return solveH(startingRow, startingCol, 2);
 	}
 
@@ -138,8 +144,15 @@ public class KnightBoard {
   *@return the number of solutions from the starting position specified
 	*/
 	public int countSolutions(int startingRow, int startingCol) {
-		addKnight(startingRow, startingCol);
+		//if the board starts with non-zero values throw exception
+  	for (int i = 0; i < board.length; i++) {
+  		for (int j = 0; j < board[0].length; j++) {
+  			if (board[i][j] != 0) throw new IllegalStateException("the board is not empty");
+  		}
+  	}
+  	addKnight(startingRow, startingCol);
 		countH(startingRow, startingCol, 2);
+		removeKnight(startingRow, startingCol);
 		return counter;
 	}
 
